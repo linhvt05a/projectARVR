@@ -22,7 +22,7 @@
        }),
      },
      resolver: {
-       assetExts: [...assetExts, "obj", "mtl", "JPG", "vrx", "hdr", "gltf", "glb", "bin", "arobject", "gif"]
+       assetExts: [...assetExts, "obj", "mtl", "JPG","mp3","mp4", "vrx", "hdr", "gltf", "glb", "bin", "arobject", "gif"]
      }
    }
  })();

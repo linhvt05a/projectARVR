@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
-import { StyleSheet } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import { ViroARSceneNavigator,ViroNode,
   ViroARPlaneSelector,ViroAnimations,
   ViroSpotLight,ViroAmbientLight,ViroARImageMarker,ViroARTrackingTargets,
-  Viro3DObject,Viro360Image,ViroMaterials,ViroARPlane, ViroConstants, ViroARScene, ViroText, ViroBox } from '@viro-community/react-viro'
+  Viro3DObject,Viro360Image,ViroMaterials,ViroARPlane, ViroConstants,Viro360Video,
+   ViroARScene, ViroText, ViroBox } from '@viro-community/react-viro'
 import { IMAGES } from './images'
 
 
@@ -32,11 +33,10 @@ const onAnchorFound = (Y) => {
 }
   
   return (
-    <ViroARScene onTrackingUpdated={onInitialized} onClick={onClick} onAnchorUpdated={(h)=>setAnchorID(h)}>
-      <ViroAmbientLight color={"#aaaaaa"} />
+    <ViroARScene onTrackingUpdated={onInitialized}>
       <ViroARImageMarker target={"poster"} onAnchorFound={(HH)=>onAnchorFound(HH)} onAnchorUpdated={(e)=>console.log('update market',e)} />
 
-        <ViroText  onClick={()=>console.log('click text')} text={text} scale={[.5, .5, .5]} position={[0, 0, -1]} style={styles.helloWorldTextStyle} />
+        {/* <ViroText  onClick={()=>console.log('click text')} text={text} scale={[.5, .5, .5]} position={[0, 0, -1]} style={styles.helloWorldTextStyle} />
         <ViroBox onClick={onClick} position={[0, -.5, -1]} scale={[.3, .3, .1]} materials={["grid"]} animation={{name: "rotate", run: true, loop: true}}/>
         <Viro3DObject
             source={require('./images/ball/object_soccer_ball.vrx')}
@@ -50,26 +50,25 @@ const onAnchorFound = (Y) => {
                        require('./images/ball/object_soccer_ball_normal.png'),
                        require('./images/ball/object_soccer_ball_specular.png')]}
             />
-        <ViroSpotLight innerAngle={5} outerAngle={90} direction={[0,-1,-.2]}
-          position={[0, 3, 1]} color="#ffffff" castsShadow={true} />
-          
-        <ViroARPlaneSelector minHeight={.5} minWidth={.5} onPlaneSelected={()=> console.log('click pane')}/>
-        <Viro3DObject
+
+        <ViroARPlaneSelector minHeight={.5} minWidth={.5} onPlaneSelected={()=> console.log('click pane')}/> */}
+     
+     <ViroARPlaneSelector  minHeight={.5} minWidth={.5} onPlaneSelected={()=> console.log('click pane')}/>
+        <ViroARPlane anchorId={anchorId.anchorId} >
+          {anchorId.anchorId && <ViroBox onClick={onClick} position={[0, .25, 0]} scale={[.1, .1, .1]} />}
+          {/* {anchorId.anchorId &&<Viro3DObject
             source={IMAGES.emoji}
             resources={[
               IMAGES.image1,
               IMAGES.image2,
               IMAGES.image2
                 ]}
-                position={[0, .5, 0]}
+                position={[-5, .5, -5]}
                 scale={[.2, .2, .2]}
-            type="VRX" />
+            type="VRX" /> */}
         
-        
-        <ViroARPlane anchorId={anchorId.anchorId} >
-          {anchorId.anchorId && <ViroBox position={[0, .25, 0]} scale={[.1, .1, .1]} />}
         </ViroARPlane>
-        <Viro360Image source={IMAGES.image2} />
+        {/* <Viro360Image source={IMAGES.image2} /> */}
 
       </ViroARScene>
     
@@ -89,7 +88,7 @@ const OtherARscreen = (props) => {
   }
   
   return(
-    <ViroARScene onTrackingUpdated={onInitialized} >
+    <ViroARScene onTrackingUpdated={onInitialized} onClick={()=>props.sceneNavigator.pop()} style={{width: 200, height:100}}>
     <ViroText  onClick={()=> props.sceneNavigator.pop()} text={text} scale={[.5, .5, .5]} position={[0, 0, -1]} style={styles.helloWorldTextStyle} />
     <ViroBox onClick={()=>props.sceneNavigator.pop()} position={[0, -.5, -1]} scale={[.3, .3, .1]} materials={["grid"]} animation={{name: "rotate", run: true, loop: true}}/>
     <ViroAmbientLight color={"#aaaaaa"} />
@@ -107,6 +106,14 @@ const OtherARscreen = (props) => {
         scale={[.2, .2, .2]}
         type="VRX" />
     </ViroNode>
+    {/* <Viro360Image source={IMAGES.image1} /> */}
+  
+   <Viro360Video
+    source={require("./images/vdo.mp4")}
+    loop={true}
+    paused={false}
+    volume={100.0} />
+   
   </ViroARScene>
   )
 }
